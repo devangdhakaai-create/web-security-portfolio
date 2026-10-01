@@ -54,3 +54,8 @@ def handleResponse(req, interesting):
 8. For each position (1–20), checked Status column directly — the row showing 500 (not length comparison this time) revealed the correct character, since error = true condition.
 
 9. Repeated for all 20 positions, reconstructed full password, logged in as administrator → lab Solved.
+
+Payload pattern: TrackingId=<val>'||(SELECT CASE WHEN SUBSTR(password,N,1)='<char>' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'
+Injection point: TrackingId cookie
+
+Takeaway: Different blind SQLi variants use different oracles — this one used error-based signaling (status 500 vs 200) instead of content-based ("Welcome back" presence) from the earlier lab. Oracle-specific syntax quirks (FROM dual, ROWNUM = 1) were essential to craft valid injectable queries. Status code comparison here was actually cleaner than response-length comparison from the previous lab — worth remembering status code as the first thing to check in error-based blind SQLi before falling back to length/content diffing.
