@@ -27,3 +27,12 @@ The POST /product/stock endpoint sends productId and storeId as XML. The storeId
 ✅ Result
 
 ``` administrator~jo8l6lj5z73ma3lz4tri carlos~vhu4gg6e78fjokcvtvzt wiener~ov1u93hefrw7im8sv9cw ``` Logged in as administrator. Lab marked Solved.
+
+⚠️ Gotcha I Hit
+
+First extraction attempt returned "0 units" even with the UNION working — missing single quotes around the ~ separator (|| ~ || instead of || '~' ||). Without quotes, ~ gets parsed as an operator/identifier, the query fails syntactically, and the app silently shows a generic "0 units" rather than an error. Always quote string literals explicitly, even for a simple separator character.
+
+🛠️ Fix
+Use parameterized queries — this closes the injection entirely, making the WAF unnecessary as a primary defense.
+A WAF is a detective/preventive layer, not a fix — any signature-based filter can be bypassed via encoding tricks (XML entities, URL encoding, case variation, comments, etc.). Don't rely on it alone.
+Validate and strictly type input (e.g. enforce storeId as a plain integer) before it ever reaches the query layer.
