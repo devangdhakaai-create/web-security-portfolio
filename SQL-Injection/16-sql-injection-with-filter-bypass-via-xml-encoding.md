@@ -44,7 +44,6 @@ Folder: screenshots/lab-16/
 * sqli-16-initial-stock-request.png — Base POST /product/stock request captured in Repeater
 * sqli-16-union-select-blocked.png — Plain UNION SELECT payload blocked, 403 "Attack detected"
 * sqli-16-hackvertor-encode-applied.png — Payload wrapped in Hackvertor hex_entities tag
-* sqli-16-waf-bypass-confirmed.png — 200 OK after encoding, WAF bypassed
 * sqli-16-credentials-extracted.png — Final payload returning username~password pairs for all users
 * sqli-16-lab-solved.png — My Account page confirming admin login, "Congratulations, you solved the lab!"
 
