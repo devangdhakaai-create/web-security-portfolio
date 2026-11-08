@@ -1,6 +1,6 @@
 # Web App Security Labs — PortSwigger Web Academy
 
-Documenting my hands-on practice solving PortSwigger Web Security Academy labs using Burp Suite (Community Edition) + Turbo Intruder for throttle-free brute forcing.
+Documenting my hands-on practice solving PortSwigger Web Security Academy labs using Burp Suite (Community Edition) + Turbo Intruder for throttle-free brute forcing and race condition exploitation.
 
 ## Progress
 
@@ -9,9 +9,9 @@ Documenting my hands-on practice solving PortSwigger Web Security Academy labs u
 | IDOR / Broken Access Control | 5 | ✅ Documented |
 | SSRF | 5 | ✅ Documented |
 | SQL Injection | 12 | ✅ Solved (1–10 writeups pending) |
-| Authentication | 4 | 🔄 In progress |
-| Race Conditions | 0 | ⏳ Next |
-| Insecure Deserialization | 0 | ⏳ Planned |
+| Authentication | 4 | 🔄 In progress (postponed) |
+| **Race Conditions** | **4 / 4** | **✅ Complete** |
+| Insecure Deserialization | 0 | ⏳ Next |
 | XXE | 0 | ⏳ Planned |
 | API Security | 0 | ⏳ Planned |
 | Cloud Misconfigurations | 0 | ⏳ Planned |
@@ -75,12 +75,33 @@ Documenting my hands-on practice solving PortSwigger Web Security Academy labs u
 
 ---
 
+## 🔹 Race Conditions ✅ (Complete — 4/4)
+
+| # | Lab | Difficulty | Status | Writeup |
+|---|-----|-----------|--------|---------|
+| 1 | Limit overrun race conditions | Apprentice | ✅ Solved | [View](https://github.com/devangdhakaai-create/web-security-portfolio/blob/main/Race-Conditions/01-limit-overrun-race-conditions.md) |
+| 2 | Bypassing rate limits via race conditions | Practitioner | ✅ Solved | [View](https://github.com/devangdhakaai-create/web-security-portfolio/blob/main/Race-Conditions/02-bypassing-rate-limits-via-race-conditions.md) |
+| 3 | Multi-endpoint race conditions | Practitioner | ✅ Solved | [View](https://github.com/devangdhakaai-create/web-security-portfolio/blob/main/Race-Conditions/03-multi-endpoint-race-conditions.md) |
+| 4 | Single-endpoint race conditions | Practitioner | ✅ Solved | [View](https://github.com/devangdhakaai-create/web-security-portfolio/blob/main/Race-Conditions/04-single-endpoint-race-conditions.md) |
+| 5 | Exploiting time-sensitive vulnerabilities | Practitioner | ✅ Solved | [View](https://github.com/devangdhakaai-create/web-security-portfolio/blob/main/Race-Conditions/05-exploiting-time-sensitive-vulnerabilities.md) |
+
+**Tools used:** Burp Suite Community Edition (Repeater — "Send group in parallel" / "Send group in sequence") and Turbo Intruder (single-packet attack via `gate`), since Burp Pro's "Trigger race condition" custom action isn't available in Community.
+
+**Key techniques learned:**
+- Single-packet / gate-based synchronized requests (Turbo Intruder) for coupon/discount stacking and rate-limit brute-forcing.
+- Repeater tab groups + "Send group (parallel)" as the free alternative to Pro's race condition tool — scaling duplicate request count (10-20) significantly improves hit rate on Community edition.
+- PHP per-session request locking bypass by spinning up a second independent session (fresh cookie + CSRF) to achieve true concurrent processing.
+- Recognizing timestamp-based hash tokens and forcing hash collisions by synchronizing request timing across two sessions.
+
+---
+
 ## Tools Used
 
 - Burp Suite Community Edition
-- Turbo Intruder (free BApp extension, used as an alternative to Burp Pro's unthrottled Intruder)
+- Turbo Intruder (free BApp extension, used as an alternative to Burp Pro's unthrottled Intruder and single-packet race attacks)
 
 ## Notes
 
 - SQLi labs 1–10 were solved before I started proper documentation; writeups will be backfilled.
-- Labs 11 onward are documented in full detail at the time of solving, including payloads, screenshots, and technique breakdowns.
+- Labs 11 onward (and all subsequent categories) are documented in full detail at the time of solving, including payloads, screenshots, and technique breakdowns.
+- Race Conditions category fully completed using only free/Community tooling — no Burp Pro features required.
